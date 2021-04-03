@@ -20,68 +20,23 @@
     <section>
         <div class="container mt-5">
             <div class="row">
+                {% for lotobj in lotobjs %}
                 <div class="col-md-3 ">
 
+                    
                     <div class="card" style="width: 18rem;height: 28rem;">
-                        <img class="card-img-top" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"
+                        <img class="card-img-top" src="{{lotobj.image.url}}"
                             alt="Card image cap" style="height: 17rem;">
                         <div class="card-body">
-                            <h5 class="card-title">CArd title1</h5>
-                            <p class="card-text">description fro card title 1</p>
+                            <h5 class="card-title">{{lotobj.title}}</h5>
+                            <p class="card-text">{{lotobj.description}}</p>
                             <a href="#" class="btn btn-primary">Add to Cart</a>
                         </div>
                     </div>
+                    
                 </div>
 
-                <div class="col-md-3 ">
-                    <div class="card" style="width: 18rem;height: 28rem;">
-                        <img class="card-img-top" src="https://images.ctfassets.net/hrltx12pl8hq/3MbF54EhWUhsXunc5Keueb/60774fbbff86e6bf6776f1e17a8016b4/04-nature_721703848.jpg?fit=fill&w=480&h=270"
-                            alt="Card image cap" style="height: 17rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">CArd title 2</h5>
-                            <p class="card-text">description for card title 2</p>
-                            <a href="#" class="btn btn-primary">Add to Cart</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3 ">
-                    <div class="card" style="width: 18rem;height: 28rem;">
-                        <img class="card-img-top" src="https://media.istockphoto.com/photos/green-leaf-with-dew-on-dark-nature-background-picture-id1050634172?k=6&m=1050634172&s=612x612&w=0&h=C6CWho9b4RDhCqvaivYOLV2LK6FzygYpAyLPBlF1i2c="
-                            alt="Card image cap" style="height: 17rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">CArd title 3</h5>
-                            <p class="card-text">description for card title 3</p>
-                            <a href="#" class="btn btn-primary">Add to Cart</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3 ">
-                    <div class="card" style="width: 18rem;height: 28rem;">
-                        <img class="card-img-top" src="https://cdn.pixabay.com/photo/2021/02/06/14/24/lavanttal-5988332__340.jpg"
-                            alt="Card image cap" style="height: 17rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">CArd title 4</h5>
-                            <p class="card-text">description for card title 4</p>
-                            <a href="#" class="btn btn-primary">Add to Cart</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3 ">
-                    <div class="card" style="width: 18rem;height: 28rem;">
-                        <img class="card-img-top" src="https://cdn.pixabay.com/photo/2015/09/09/16/05/forest-931706_960_720.jpg"
-                            alt="Card image cap" style="height: 17rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">CArd title 4</h5>
-                            <p class="card-text">description for card title 4</p>
-                            <a href="#" class="btn btn-primary">Add to Cart</a>
-                        </div>
-                    </div>
-                </div>
-
-
+                {% endfor %}
             </div>
         </div>
     </section>

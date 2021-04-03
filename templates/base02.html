@@ -31,30 +31,25 @@
 
             <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li class="nav-item" id="navhour">
-                        <a class="nav-link" href="/">Hourly<span class="sr-only">(current)</span></a>
+                    <li class="nav-item" id="navspace">
+                        <a class="nav-link" href="myspacehome">Your Spaces<span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item" id="navmonth">
-                        <a class="nav-link" href="monthlyhome">Monthly</a>
+                    <li class="nav-item" id="navreport">
+                        <a class="nav-link" href="">Reports</a>
                     </li>
-                     <li class="nav-item" id="navvalet">
-                        <a class="nav-link" href="#">Valet</a>
+                     <li class="nav-item" id="navlist">
+                        <a class="nav-link" href="addparking">List New</a>
                     </li>
                    
                 </ul>
                 
 
-                <select class="form-select mx-auto " aria-label="Default select example" style="width: 300px;height:40px;">
-                    <option selected>Select Nearest Locality</option>
-                    <option value="edapally">edapally</option>
-                    <option value="kalamaserry">kalamaserry</option>
-                    <option value="menaka">menaka</option>
-                  </select>
+
 
                   <div>
-                    {% if user.is_authenticated %}
-                      <a class="btn btn-primary mr-3" href="myspacehome">List Your Space</a>
-                    {% endif %}
+                    
+                      <a class="btn btn-primary mr-3" href="\">Book Parking</a>
+                   
                   </div>
 
                         <div class="dropdown">

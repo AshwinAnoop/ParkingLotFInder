@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User,auth
-from .models import extendeduser
+from .models import extendeduser,parkinglot
 from django.contrib import messages
 # Create your views here.
 
 def home(request):
-    return render(request,'home.html')
+    lotobjs = parkinglot.objects.all()
+    return render(request,'home.html',{'lotobjs' : lotobjs})
 
 def login(request):
     if request.method == 'POST':
@@ -63,3 +64,9 @@ def monthlyhome(request):
 def logout(request):
     auth.logout(request)
     return redirect('/')
+
+def myspacehome(request):
+    return render(request,'myspacehome.html')
+
+def addparking(request):
+    return render(request,'addparking.html')

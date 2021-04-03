@@ -7,3 +7,13 @@ class extendeduser(models.Model):
     is_valet = models.BooleanField(default=False)
     user = models.OneToOneField(User,on_delete=models.CASCADE) 
 
+class parkinglot(models.Model):
+    locality = models.CharField(max_length = 30)
+    title = models.CharField(max_length = 100)
+    description = models.TextField()
+    price = models.IntegerField()
+    monthlyrent = models.BooleanField(default=False)
+    userid = models.IntegerField()
+    image = models.ImageField(upload_to = 'pics')
+    gmaplink = models.CharField(max_length = 150)
+    verifystatus = models.BooleanField(default=False)
