@@ -58,7 +58,8 @@ def signup(request):
         return render(request,'signup.html')
 
 def monthlyhome(request):
-    return render(request,'monthlyhome.html')
+    lotobjs = parkinglot.objects.all()
+    return render(request,'monthlyhome.html',{'lotobjs' : lotobjs})
 
 
 def logout(request):

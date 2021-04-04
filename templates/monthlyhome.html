@@ -14,38 +14,29 @@
 
 {% block content%}
 
-    <section>
-        <div class="container mt-5">
-            <div class="row">
-                <div class="col-md-3 ">
+<section>
+    <div class="container mt-5">
+        <div class="row">
+            {% for lotobj in lotobjs %}
+            <div class="col-md-3 ">
 
-                    <div class="card" style="width: 18rem;height: 28rem;">
-                        <img class="card-img-top" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"
-                            alt="Card image cap" style="height: 17rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">CArd title1</h5>
-                            <p class="card-text">description fro card title 1</p>
-                            <a href="#" class="btn btn-primary">Add to Cart</a>
-                        </div>
+                {% with price=lotobj.price%}
+                
+                <div class="card" style="width: 18rem;height: 28rem;">
+                    <img class="card-img-top" src="{{lotobj.image.url}}"
+                        alt="Card image cap" style="height: 17rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{lotobj.title}}</h5>
+                        <p class="card-text">Rs <b>{% widthratio 100 1 price %}</b>/month </p>
+                        <a href="#" class="btn btn-primary">Book now</a>
                     </div>
                 </div>
-
-                <div class="col-md-3 ">
-                    <div class="card" style="width: 18rem;height: 28rem;">
-                        <img class="card-img-top" src="https://images.ctfassets.net/hrltx12pl8hq/3MbF54EhWUhsXunc5Keueb/60774fbbff86e6bf6776f1e17a8016b4/04-nature_721703848.jpg?fit=fill&w=480&h=270"
-                            alt="Card image cap" style="height: 17rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">CArd title 2</h5>
-                            <p class="card-text">description for card title 2</p>
-                            <a href="#" class="btn btn-primary">Add to Cart</a>
-                        </div>
-                    </div>
-                </div>
-
-
-
+                
             </div>
+            {% endwith %}
+            {% endfor %}
         </div>
-    </section>
+    </div>
+</section>
 
 {% endblock%}
