@@ -1,13 +1,14 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User,auth
-from .models import extendeduser,parkinglot
+from .models import extendeduser,parkinglot,locality
 from django.contrib import messages
 # Create your views here.
 
 def home(request):
     lotobjs = parkinglot.objects.all()
-    return render(request,'home.html',{'lotobjs' : lotobjs})
+    localities = locality.objects.all()
+    return render(request,'home.html',{'lotobjs' : lotobjs, 'localities' : localities})
 
 def login(request):
     if request.method == 'POST':
@@ -58,8 +59,9 @@ def signup(request):
         return render(request,'signup.html')
 
 def monthlyhome(request):
-    lotobjs = parkinglot.objects.all()
-    return render(request,'monthlyhome.html',{'lotobjs' : lotobjs})
+    lotobjs = parkinglot.objects.filter(monthlyrent=True)
+    localities = locality.objects.all()
+    return render(request,'monthlyhome.html',{'lotobjs' : lotobjs, 'localities' : localities})
 
 
 def logout(request):
