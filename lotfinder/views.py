@@ -6,9 +6,16 @@ from django.contrib import messages
 # Create your views here.
 
 def home(request):
-    lotobjs = parkinglot.objects.all()
-    localities = locality.objects.all()
-    return render(request,'home.html',{'lotobjs' : lotobjs, 'localities' : localities})
+        if request.method=='POST':
+            place = request.POST['place']
+            lotobjs = parkinglot.objects.filter(locality = place)
+            localities = locality.objects.all()
+            return render(request,'home.html',{'lotobjs' : lotobjs, 'localities' : localities})
+
+        else:
+            lotobjs = parkinglot.objects.all()
+            localities = locality.objects.all()
+            return render(request,'home.html',{'lotobjs' : lotobjs, 'localities' : localities})
 
 def login(request):
     if request.method == 'POST':
@@ -59,9 +66,16 @@ def signup(request):
         return render(request,'signup.html')
 
 def monthlyhome(request):
-    lotobjs = parkinglot.objects.filter(monthlyrent=True)
-    localities = locality.objects.all()
-    return render(request,'monthlyhome.html',{'lotobjs' : lotobjs, 'localities' : localities})
+
+        if request.method=='POST':
+            place = request.POST['place']
+            lotobjs = parkinglot.objects.filter(locality = place,monthlyrent=True)
+            localities = locality.objects.all()
+            return render(request,'monthlyhome.html',{'lotobjs' : lotobjs, 'localities' : localities})
+        else:
+            lotobjs = parkinglot.objects.filter(monthlyrent=True)
+            localities = locality.objects.all()
+            return render(request,'monthlyhome.html',{'lotobjs' : lotobjs, 'localities' : localities})
 
 
 def logout(request):

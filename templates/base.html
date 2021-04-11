@@ -44,12 +44,7 @@
                 </ul>
                 
 
-                <select class="form-select mx-auto " aria-label="Default select example" style="width: 300px;height:40px;">
-                    <option selected>Select Nearest Locality</option>
-                    {% for places in localities %}
-                    <option value="{{places.locality}}">{{places.locality}}</option>
-                    {% endfor %}
-                  </select>
+
 
                   <div>
                     {% if user.is_authenticated %}
