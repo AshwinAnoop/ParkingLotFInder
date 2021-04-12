@@ -14,7 +14,7 @@ class parkinglot(models.Model):
     price = models.IntegerField()
     monthlyrent = models.BooleanField(default=False)
     userid = models.IntegerField()
-    image = models.ImageField(upload_to = 'pics')
+    image = models.ImageField(upload_to = 'pics/')
     gmaplink = models.CharField(max_length = 150)
     verifystatus = models.BooleanField(default=False)
 

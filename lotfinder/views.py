@@ -86,4 +86,24 @@ def myspacehome(request):
     return render(request,'myspacehome.html')
 
 def addparking(request):
-    return render(request,'addparking.html')
+
+    if request.method == 'POST':
+        place = request.POST['locality']
+        title = request.POST['title']
+        description = request.POST['description']
+        price = request.POST['price']
+        if 'monthly' in request.POST:
+            monthly = request.POST['monthly']
+        else:
+            monthly = False
+        image = request.FILES['image']
+        userid = request.user.id
+
+        newlot = parkinglot(locality=place,title=title,description=description,monthlyrent=monthly,image=image,price=price,userid=userid)
+        newlot.save();
+        messages.info(request,'Listing successful')
+        return render(request,'myspacehome.html')
+
+    else:
+        localities = locality.objects.all()
+        return render(request,'addparking.html',{'localities' : localities})
