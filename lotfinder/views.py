@@ -83,7 +83,9 @@ def logout(request):
     return redirect('/')
 
 def myspacehome(request):
-    return render(request,'myspacehome.html')
+    userid = request.user.id
+    lotobjs = parkinglot.objects.filter(userid=userid)
+    return render(request,'myspacehome.html',{'lotobjs' : lotobjs})
 
 def addparking(request):
 
