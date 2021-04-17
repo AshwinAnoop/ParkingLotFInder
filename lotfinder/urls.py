@@ -9,4 +9,6 @@ urlpatterns = [
     path('logout',views.logout, name='logout'),
     path('myspacehome',views.myspacehome, name='myspacehome'),
     path('addparking',views.addparking, name='addparking'),
+    path('emp',views.employeelogin, name='emp'),
+    path('employeehome',views.employeehome, name='employeehome'),
 ]

@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User,auth
 from .models import extendeduser,parkinglot,locality
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
 def home(request):
@@ -109,3 +111,32 @@ def addparking(request):
     else:
         localities = locality.objects.all()
         return render(request,'addparking.html',{'localities' : localities})
+
+
+def employeelogin(request):
+    if request.method == 'POST':
+        username = request.POST['email']
+        password = request.POST['password']
+
+        user = auth.authenticate(username=username,password=password)
+        if user is not None:
+            if user.is_staff:
+
+                auth.login(request, user)
+                return redirect("/employeehome")
+            else:
+                messages.info(request,'No Authorization to visit the page, Login Here')
+                return redirect('login')  
+        else:
+            messages.info(request,'invalid credentials')
+            return redirect('emp')
+    else:
+
+        return render(request,'employeelogin.html')
+
+@login_required
+def employeehome(request):
+    if request.user.is_staff:
+        return render(request,'employeehome.html')
+    else:
+        return redirect('/')
