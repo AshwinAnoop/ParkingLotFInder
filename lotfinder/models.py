@@ -13,10 +13,28 @@ class parkinglot(models.Model):
     description = models.TextField()
     price = models.IntegerField()
     monthlyrent = models.BooleanField(default=False)
-    userid = models.IntegerField()
+    userid = models.ForeignKey(User , on_delete=models.DO_NOTHING)
     image = models.ImageField(upload_to = 'pics/')
     gmaplink = models.CharField(max_length = 150)
     verifystatus = models.BooleanField(default=False)
 
 class locality(models.Model):
     locality = models.CharField(max_length = 30)
+
+class booking(models.Model):
+    lotid = models.ForeignKey(parkinglot , on_delete=models.DO_NOTHING)
+    booktime = models.DateTimeField()
+    vacate = models.DateTimeField()
+    userid = models.ForeignKey(User , on_delete=models.DO_NOTHING)
+    payment = models.IntegerField()
+    valetbooking = models.BooleanField(default=False)
+
+class lotverification(models.Model):
+    verifier = models.ForeignKey(User , on_delete=models.DO_NOTHING)
+    verifydate = models.DateTimeField()
+    feedback = models.TextField()
+    lotid = models.ForeignKey(parkinglot , on_delete=models.DO_NOTHING)
+
+class valet(models.Model):
+    bookingid = models.ForeignKey(booking , on_delete=models.DO_NOTHING)
+    valetid = models.ForeignKey(User , on_delete=models.DO_NOTHING)
