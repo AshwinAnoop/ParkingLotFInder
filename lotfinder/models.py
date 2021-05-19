@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 class extendeduser(models.Model):
     mobile = models.CharField(max_length = 15)
     is_valet = models.BooleanField(default=False)
+    walletbalance = models.IntegerField()
     user = models.OneToOneField(User,on_delete=models.CASCADE) 
 
 class parkinglot(models.Model):
@@ -38,3 +39,8 @@ class lotverification(models.Model):
 class valet(models.Model):
     bookingid = models.ForeignKey(booking , on_delete=models.DO_NOTHING)
     valetid = models.ForeignKey(User , on_delete=models.DO_NOTHING)
+
+class wallet(models.Model):
+    userid = models.ForeignKey(User , on_delete=models.DO_NOTHING)
+    amount = models.IntegerField()
+    Transactdate = models.DateTimeField(auto_now_add=True)

@@ -11,4 +11,5 @@ urlpatterns = [
     path('addparking',views.addparking, name='addparking'),
     path('emp',views.employeelogin, name='emp'),
     path('employeehome',views.employeehome, name='employeehome'),
+    path('editlisting/',views.editlisting, name='editlisting'),
 ]

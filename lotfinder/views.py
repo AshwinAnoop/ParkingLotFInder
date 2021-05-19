@@ -46,6 +46,7 @@ def signup(request):
         mobile = request.POST['phno']
         password1 = request.POST['password']
         password2 = request.POST['retypepassword']
+        walletbalance = 0
 
         if password1==password2:
             if User.objects.filter(email=email).exists():
@@ -54,7 +55,7 @@ def signup(request):
 
             else:
                 user = User.objects.create_user(username=email,email=email,password=password1,first_name=username)
-                newextendeduser = extendeduser(mobile=mobile, user=user)
+                newextendeduser = extendeduser(mobile=mobile, walletbalance=walletbalance, user=user)
                 newextendeduser.save();
                 print('user created')
                 return redirect('login')                
@@ -103,7 +104,7 @@ def addparking(request):
         image = request.FILES['image']
         userid = request.user.id
 
-        newlot = parkinglot(locality=place,title=title,description=description,monthlyrent=monthly,image=image,price=price,userid=userid)
+        newlot = parkinglot(locality=place,title=title,description=description,monthlyrent=monthly,image=image,price=price,userid_id=userid)
         newlot.save();
         messages.info(request,'Listing successful')
         return render(request,'myspacehome.html')
@@ -111,6 +112,33 @@ def addparking(request):
     else:
         localities = locality.objects.all()
         return render(request,'addparking.html',{'localities' : localities})
+
+
+def editlisting(request):
+    if request.method == 'POST':
+        lotid = request.POST['lotid']
+        title = request.POST['title']
+        description = request.POST['description']
+        price = request.POST['price']
+        if 'monthly' in request.POST:
+            monthly = request.POST['monthly']
+        else:
+            monthly = False
+
+        editlot = parkinglot.objects.get(id = lotid)
+        editlot.title = title
+        editlot.description = description
+        editlot.monthlyrent = monthly
+        editlot.price = price     
+        editlot.save();
+        messages.info(request,'Update successful')
+        return redirect('myspacehome')
+
+
+    else:
+        id = request.GET.get('parking')
+        lotobjs = parkinglot.objects.filter(id=id)
+        return render(request,'editlisting.html',{'lotobjs' : lotobjs})
 
 
 def employeelogin(request):
