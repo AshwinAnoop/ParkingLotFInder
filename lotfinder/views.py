@@ -116,24 +116,41 @@ def addparking(request):
 
 def editlisting(request):
     if request.method == 'POST':
-        lotid = request.POST['lotid']
-        title = request.POST['title']
-        description = request.POST['description']
-        price = request.POST['price']
-        if 'monthly' in request.POST:
-            monthly = request.POST['monthly']
-        else:
-            monthly = False
 
-        editlot = parkinglot.objects.get(id = lotid)
-        editlot.title = title
-        editlot.description = description
-        editlot.monthlyrent = monthly
-        editlot.price = price     
-        editlot.save();
-        messages.info(request,'Update successful')
-        return redirect('myspacehome')
+        if 'edit' in request.POST:
+            lotid = request.POST['lotid']
+            title = request.POST['title']
+            description = request.POST['description']
+            price = request.POST['price']
+            if 'monthly' in request.POST:
+                monthly = request.POST['monthly']
+            else:
+                monthly = False
 
+            editlot = parkinglot.objects.get(id = lotid)
+            editlot.title = title
+            editlot.description = description
+            editlot.monthlyrent = monthly
+            editlot.price = price     
+            editlot.save();
+            messages.info(request,'Update successful')
+            return redirect('myspacehome')
+
+        elif 'deactivate' in request.POST:
+            lotid = request.POST['lotid']
+            deactivatelot = parkinglot.objects.get(id = lotid)
+            deactivatelot.activestatus = False
+            deactivatelot.save();
+            messages.info(request,'Deactivated parking successfully')
+            return redirect('myspacehome')
+
+        elif 'activate' in request.POST:
+            lotid = request.POST['lotid']
+            activatelot = parkinglot.objects.get(id = lotid)
+            activatelot.activestatus = True
+            activatelot.save();
+            messages.info(request,'Re-activated parking successfully')
+            return redirect('myspacehome')
 
     else:
         id = request.GET.get('parking')

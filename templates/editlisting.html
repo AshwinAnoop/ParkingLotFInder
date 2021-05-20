@@ -65,8 +65,18 @@
 
 
                 <div class="mt-3 mb-3">
-                    <button type="submit" class="btn btn-primary">Confirm Edit</button>
+                    <button type="submit" class="btn btn-primary" name="edit" value="edit">Confirm Edit</button>
                 </div>
+
+                <div class="mt-3 mb-3">
+
+                    {% if lotobj.activestatus %}
+                    <button type="submit" class="btn btn-danger" name="deactivate" value="deactivate">Deactivate Lisiting</button>
+                    {% else %}
+                    <button type="submit" class="btn btn-success" name="activate" value="activate">Re-activate Lisiting</button>
+                    {% endif %}
+                </div>
+
                 {% endfor %}
                 </form>
 

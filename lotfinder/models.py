@@ -18,6 +18,7 @@ class parkinglot(models.Model):
     image = models.ImageField(upload_to = 'pics/')
     gmaplink = models.CharField(max_length = 150)
     verifystatus = models.BooleanField(default=False)
+    activestatus = models.BooleanField(default=True)
 
 class locality(models.Model):
     locality = models.CharField(max_length = 30)
