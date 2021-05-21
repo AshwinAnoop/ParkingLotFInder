@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User,auth
-from .models import extendeduser,parkinglot,locality
+from .models import extendeduser, lotverification,parkinglot,locality
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
@@ -182,6 +182,24 @@ def employeelogin(request):
 @login_required
 def employeehome(request):
     if request.user.is_staff:
-        return render(request,'employeehome.html')
+
+        lotobjs = parkinglot.objects.filter(verifystatus=False)
+        return render(request,'employeehome.html',{'lotobjs' : lotobjs})
     else:
         return redirect('/')
+
+@login_required
+def acceptrequest(request):
+    lot_id = request.GET.get('parking') 
+    lotobjs = parkinglot.objects.get(id=lot_id)
+    myuserid = lotobjs.userid_id
+    usermobobj = extendeduser.objects.get(user=myuserid)
+    commitobj = lotverification.objects.filter(lotid=lot_id).first()
+    return render(request,'acceptrequest.html',{'lotobjs' : lotobjs, 'usermobobj' : usermobobj, 'commitobj' : commitobj})
+
+def commiting(request):
+    lotid = request.GET.get('parking')
+    verifier = request.user.id
+    commit = lotverification(allotedstatus=True,lotid_id=lotid,verifier_id=verifier)
+    commit.save();
+    return redirect('employeehome')

@@ -12,4 +12,6 @@ urlpatterns = [
     path('emp',views.employeelogin, name='emp'),
     path('employeehome',views.employeehome, name='employeehome'),
     path('editlisting/',views.editlisting, name='editlisting'),
+    path('acceptrequest/',views.acceptrequest, name='acceptlisting'),
+    path('commiting/',views.commiting, name='commiting'),
 ]

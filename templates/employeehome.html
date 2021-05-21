@@ -1,1 +1,50 @@
 {% extends 'base03.html' %}
+
+{% block additionalstyle %}
+<style>
+
+    #navspace{
+        font-weight: bolder;
+        border-style: none none double none;
+        border-color: tomato;
+        border-bottom-width: thick;
+    }
+ </style>
+{% endblock %}
+
+{% block content%}
+
+    <section>
+
+
+        <div>
+            {% for message in messages %}
+            <h3 style="color:Tomato;">{{message}}</h3>
+            {% endfor %}
+        </div>
+
+    
+        <div class="container mt-5">
+            <div class="row">
+                {% for lotobj in lotobjs %}
+                <div class="col-md-3 ">
+
+                    
+                    <div class="card" style="width: 18rem;height: 28rem;">
+                        <img class="card-img-top" src="{{lotobj.image.url}}"
+                            alt="Card image cap" style="height: 17rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{lotobj.title}}</h5>
+                            <p class="card-text">Locality: <b> {{lotobj.locality}}</b></p>
+                            <a href="acceptrequest/?parking={{lotobj.id}}" class="btn btn-primary" >Accept Verification request</a>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+{% endblock%}

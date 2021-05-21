@@ -33,9 +33,11 @@ class booking(models.Model):
 
 class lotverification(models.Model):
     verifier = models.ForeignKey(User , on_delete=models.DO_NOTHING)
-    verifydate = models.DateTimeField()
-    feedback = models.TextField()
+    verifydate = models.DateTimeField(default=None, blank=True, null=True)
+    feedback = models.TextField(default=None, blank=True, null=True)
     lotid = models.ForeignKey(parkinglot , on_delete=models.DO_NOTHING)
+    allotedstatus = models.BooleanField(default=True)
+
 
 class valet(models.Model):
     bookingid = models.ForeignKey(booking , on_delete=models.DO_NOTHING)

@@ -1,0 +1,57 @@
+{% extends 'base03.html' %}
+
+{% block additionalstyle %}
+<style>
+
+    #navspace{
+        font-weight: bolder;
+        border-style: none none double none;
+        border-color: tomato;
+        border-bottom-width: thick;
+    }
+ </style>
+{% endblock %}
+
+{% block content %}
+
+<section>
+    <div class="container">
+        <div class="row">
+
+            <div class="m-auto">
+                <div class="m-auto">
+                <h3 class="mt-3 mb-3">
+                    parking lot details
+                </h3>
+                </div>
+
+                <div class="col-md-3 ">
+
+                    
+                    <div class="card" style="width: 38rem;height: 52rem;">
+                        <img class="card-img-top" src="{{lotobjs.image.url}}"
+                            alt="Card image cap" style="height: 17rem;">
+                        <div class="card-body">
+                            <h3 class="card-title">{{lotobjs.title}}</h5>
+                            <p class="card-text">Location: <b>{{lotobjs.locality}}</b></p>
+                            <p class="card-text">Description: <b>{{lotobjs.description}}</b></p>
+
+                            <p class="card-text">Mobile number: <b>{{usermobobj.mobile}}</b></p> 
+                            <p class="card-text">Ad posted by: <b>{{lotobjs.userid.first_name}}</b></p> 
+                            {% if commitobj is not none %}
+                            <a href="#" class="btn btn-danger" >Already Commited!!! Please wait until slot is free </a>
+                            <a href="/employeehome" class="btn btn-success mt-2" >Go Back to Employee HomeScreen </a>
+                            {% else %}
+                            <a href="/commiting/?parking={{lotobjs.id}}" class="btn btn-primary" >Commit</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
