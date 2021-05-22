@@ -14,7 +14,11 @@
 
 {% block content %}
 
-
+<div>
+    {% for message in messages %}
+    <h3 style="color:Tomato;">{{message}}</h3>
+    {% endfor %}
+</div>
 
 <div class="list-group">
 
@@ -40,8 +44,8 @@
       <p class="mb-1"><b>Posted By: </b> {{lotobj.lotid.userid.first_name}}</p>
       <p class="text-muted"><b>Mobile: </b>{{lotobj.lotid.userid.extendeduser.mobile}}</p>
 
-      <a class="btn btn-primary mr-2 mt-3" style="height: 40px;">Verify</a>
-      <a class="btn btn-danger mr-2 mt-3" style="height: 40px;">Unallot</a>
+      <a class="btn btn-primary mr-2 mt-3" style="height: 40px;" href="/verifing/?parking={{lotobj.id}}">Verify</a>
+      <a class="btn btn-danger mr-2 mt-3" style="height: 40px;" href="/unallot/?parking={{lotobj.id}}">Unallot</a>
       </div>
     </a>
 

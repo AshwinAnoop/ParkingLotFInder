@@ -194,7 +194,7 @@ def acceptrequest(request):
     lotobjs = parkinglot.objects.get(id=lot_id)
     myuserid = lotobjs.userid_id
     usermobobj = extendeduser.objects.get(user=myuserid)
-    commitobj = lotverification.objects.filter(lotid=lot_id).first()
+    commitobj = lotverification.objects.filter(lotid=lot_id,allotedstatus=True).first()
     return render(request,'acceptrequest.html',{'lotobjs' : lotobjs, 'usermobobj' : usermobobj, 'commitobj' : commitobj})
 
 def commiting(request):
@@ -202,6 +202,7 @@ def commiting(request):
     verifier = request.user.id
     commit = lotverification(allotedstatus=True,lotid_id=lotid,verifier_id=verifier)
     commit.save();
+    messages.info(request,'You can now verify the alloted slot')
     return redirect('employeehome')
 
 @login_required
@@ -210,3 +211,11 @@ def verification(request):
     lotverifyobj = lotverification.objects.filter(allotedstatus=True,verifier_id=userid)
     
     return render(request,'verification.html',{'lotverifyobj' : lotverifyobj})
+
+def unallot(request):
+    verifyid = request.GET.get('parking')
+    allotedlot = lotverification.objects.get(id = verifyid)
+    allotedlot.allotedstatus = False
+    allotedlot.save();
+    messages.info(request,'Slot Unallocation done successfully!!!')
+    return redirect('verification')

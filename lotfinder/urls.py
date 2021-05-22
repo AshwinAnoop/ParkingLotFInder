@@ -15,4 +15,5 @@ urlpatterns = [
     path('acceptrequest/',views.acceptrequest, name='acceptlisting'),
     path('commiting/',views.commiting, name='commiting'),
     path('verification',views.verification, name='verification'),
+    path('unallot/',views.unallot, name='unallot'),
 ]
