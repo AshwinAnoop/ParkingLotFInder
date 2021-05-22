@@ -14,4 +14,5 @@ urlpatterns = [
     path('editlisting/',views.editlisting, name='editlisting'),
     path('acceptrequest/',views.acceptrequest, name='acceptlisting'),
     path('commiting/',views.commiting, name='commiting'),
+    path('verification',views.verification, name='verification'),
 ]

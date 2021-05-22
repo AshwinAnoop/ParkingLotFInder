@@ -203,3 +203,10 @@ def commiting(request):
     commit = lotverification(allotedstatus=True,lotid_id=lotid,verifier_id=verifier)
     commit.save();
     return redirect('employeehome')
+
+@login_required
+def verification(request):
+    userid = request.user.id
+    lotverifyobj = lotverification.objects.filter(allotedstatus=True,verifier_id=userid)
+    
+    return render(request,'verification.html',{'lotverifyobj' : lotverifyobj})
