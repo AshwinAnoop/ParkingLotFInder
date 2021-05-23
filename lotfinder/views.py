@@ -4,6 +4,7 @@ from django.contrib.auth.models import User,auth
 from .models import extendeduser, lotverification,parkinglot,locality
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+import datetime
 
 # Create your views here.
 
@@ -219,3 +220,38 @@ def unallot(request):
     allotedlot.save();
     messages.info(request,'Slot Unallocation done successfully!!!')
     return redirect('verification')
+
+def verifing(request):
+    if request.method == 'POST':
+        verifyid = request.POST['verifyid']
+        adtitle = request.POST['title']
+        parkinglotid = request.POST['parkinglotid']
+        addescription = request.POST['description']
+        adprice = request.POST['price']
+        gmaplink = request.POST['gmaplink']
+        verifyfeedback = request.POST['feedback']
+
+
+        lotobj = parkinglot.objects.get(id = parkinglotid)
+        lotobj.verifystatus = True
+        lotobj.title = adtitle
+        lotobj.description = addescription
+        lotobj.price = adprice
+        lotobj.gmaplink = gmaplink
+        
+        verifyobj = lotverification.objects.get(id = verifyid)
+        verifyobj.feedback = verifyfeedback
+        verifyobj.verifydate = datetime.datetime.now()
+
+        lotobj.save();
+        verifyobj.save();
+        messages.info(request,'Slot verified successfully!!!')
+        return redirect('verification')        
+
+
+    else:
+        verifyid = request.GET.get('verify')
+        lotid = request.GET.get('lot')
+        verifyobjs = lotverification.objects.get(id = verifyid)
+        lotobjs = parkinglot.objects.get(id = lotid)
+        return render(request,'verifing.html',{'verifyobjs' : verifyobjs, 'lotobjs' : lotobjs})

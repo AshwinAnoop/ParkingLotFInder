@@ -16,4 +16,6 @@ urlpatterns = [
     path('commiting/',views.commiting, name='commiting'),
     path('verification',views.verification, name='verification'),
     path('unallot/',views.unallot, name='unallot'),
+    path('verifing/',views.verifing, name='verifing'),
+    path('verifing',views.verifing, name='verifing'),
 ]
