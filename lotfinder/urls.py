@@ -18,4 +18,5 @@ urlpatterns = [
     path('unallot/',views.unallot, name='unallot'),
     path('verifing/',views.verifing, name='verifing'),
     path('verifing',views.verifing, name='verifing'),
+    path('verifiedbyme',views.verifiedbyme, name='verifiedbyme'),
 ]

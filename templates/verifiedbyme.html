@@ -1,0 +1,40 @@
+{% extends 'base03.html' %}
+
+{% block additionalstyle %}
+<style>
+
+    #navlist{
+        font-weight: bolder;
+        border-style: none none double none;
+        border-color: tomato;
+        border-bottom-width: thick;
+    }
+ </style>
+{% endblock %}
+
+{% block content %}
+
+<div class="list-group">
+
+    {% for lotobj in lotverifyobj %}
+
+
+
+    <a href="#" class="list-group-item list-group-item-action">
+      <div class="d-flex w-100 justify-content-between">
+        <h4 class="mb-1">{{lotobj.lotid.title}}</h4>
+        <small class="text-muted">{{lotobj.verifydate}}</small>
+      </div>
+      <p class="mb-1">Posted By: </b> {{lotobj.lotid.userid.first_name}}.</p>
+      <p class="text-muted"><b>Mobile: </b>{{lotobj.lotid.userid.extendeduser.mobile}}</p>
+
+      <small class="text-muted"><b>Locality : </b>{{lotobj.lotid.locality}}</small>
+    </a>
+
+
+
+    {% endfor %}
+  </div>
+
+
+{% endblock %}
