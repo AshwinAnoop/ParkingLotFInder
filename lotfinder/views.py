@@ -11,12 +11,12 @@ import datetime
 def home(request):
         if request.method=='POST':
             place = request.POST['place']
-            lotobjs = parkinglot.objects.filter(locality = place)
+            lotobjs = parkinglot.objects.filter(locality = place,verifystatus = True).order_by('-id')
             localities = locality.objects.all()
             return render(request,'home.html',{'lotobjs' : lotobjs, 'localities' : localities})
 
         else:
-            lotobjs = parkinglot.objects.all()
+            lotobjs = parkinglot.objects.filter(verifystatus = True).order_by('-id')
             localities = locality.objects.all()
             return render(request,'home.html',{'lotobjs' : lotobjs, 'localities' : localities})
 
