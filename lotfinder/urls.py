@@ -19,4 +19,5 @@ urlpatterns = [
     path('verifing/',views.verifing, name='verifing'),
     path('verifing',views.verifing, name='verifing'),
     path('verifiedbyme',views.verifiedbyme, name='verifiedbyme'),
+    path('lotoverview/',views.lotoverview, name='lotoverview'),
 ]

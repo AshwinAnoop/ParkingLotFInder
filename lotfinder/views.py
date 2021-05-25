@@ -260,5 +260,9 @@ def verifing(request):
 def verifiedbyme(request):
     userid = request.user.id
     lotverifyobj = lotverification.objects.filter(verifier_id=userid,lotid__verifystatus=True,allotedstatus=True)  
-
     return render(request,'verifiedbyme.html',{'lotverifyobj' : lotverifyobj})
+
+def lotoverview(request):
+    parking = request.GET.get('lot')
+    lotobjs = parkinglot.objects.get(id=parking)  
+    return render(request,'lotoverview.html',{'lotobjs' : lotobjs})

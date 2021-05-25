@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+
+{% block additionalstyle %}
+<style>
+
+    #navhour{
+        font-weight: bolder;
+        border-style: none none double none;
+        border-color: tomato;
+        border-bottom-width: thick;
+    }
+ </style>
+{% endblock %}
+
+
+
+{%  block content %}
+
+<section>
+    <div class="container ">
+        <div class="row">
+            <div class="col-md-6 m-auto">
+                <h2 class="text-center mt-3 pb-3">Overview of the parking lot</h2>
+
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="{{lotobjs.image.url}}"
+                        alt="Card image cap" style="height: 17rem;">
+                </div>
+                <br>
+
+                <input type="hidden" name="verifyid" value="{{verifyobjs.id}}">
+                
+                <input type="hidden" name="parkinglotid" value="{{lotobjs.id}}">
+                
+
+                <div class="mb-3 ">
+                    <h3>{{lotobjs.title}}</h3>
+                </div>
+
+
+                <div class="mb-3 ">
+                    <h6><b>Description :</b>{{lotobjs.description}} </h6>
+                </div>
+
+                <div class="mb-3">
+                    <h6><b>Price per hour :</b>{{lotobjs.price}} Rs</h6>
+                </div>
+
+
+                <div class="mb-3">
+                    <a href="{{lotobjs.gmaplink}}" target="_blank" class="btn btn-warning">Locate in Maps <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
+                      </svg></a>
+                </div>
+
+
+                
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
