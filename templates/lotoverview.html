@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load mathfilters %}
 
 
 {% block additionalstyle %}
@@ -54,6 +55,73 @@
                       </svg></a>
                 </div>
 
+                                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Confirm Booking
+                </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Tariff Plans</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        
+                            <div class="list-group">
+
+                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
+                                  <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">Base plan</h5>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-check-circle-fill mb-1" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                                      </svg>
+                                  </div>
+                                  <p class="mb-1">Minimum cost for this slot is<b> {{ lotobjs.price|mul:2 }} Rs</b>. Thereafter <b>RS {{lotobjs.price}}</b> will be charged for each hour  </p>
+                                  <small class="btn btn-outline-light">You have chosen this plan</small>
+                                </a>
+
+                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                  <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">Daily plan</h5>
+                                    <small><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightning-charge-fill" viewBox="0 0 16 16">
+                                        <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"/>
+                                      </svg>Save 50%</small>
+                                  </div>
+                                  <h6 class="mt-1 mb-1">Costs <b>Rs {{ lotobjs.price|mul:12 }}</b> per day </h6>
+                                  <p class="mb-1">Automatically upgrades base plan to daily plan, if car is parked for more than 24hrs</p>
+                                  <small class="btn btn-outline-dark">Auto Upgradation</small>
+                                </a>
+
+                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                    <div class="d-flex w-100 justify-content-between">
+                                      <h5 class="mb-1">Monthly plan</h5>
+                                      <small><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightning-charge-fill" viewBox="0 0 16 16">
+                                          <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"/>
+                                        </svg><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightning-charge-fill" viewBox="0 0 16 16">
+                                            <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"/>
+                                          </svg><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightning-charge-fill" viewBox="0 0 16 16">
+                                            <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"/>
+                                          </svg>Save 72%</small>
+                                    </div>
+                                    <h6 class="mt-1 mb-1">Costs <b>Rs {{ lotobjs.price|mul:300 }}</b> per month </h6>
+                                    <p class="btn btn-outline-dark mb-1">Navigate to monthly tab to get these benefits</p>
+                                    <br>
+                                    <small class="">*manual upgradation from base plan may incure additional charges</small>
+                                  </a>
+                              </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Confirm Booking</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
 
                 
 
