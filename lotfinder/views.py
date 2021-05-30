@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User,auth
-from .models import extendeduser, lotverification,parkinglot,locality
+from .models import extendeduser, lotverification,parkinglot,locality, wallet
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 import datetime
@@ -29,6 +29,12 @@ def login(request):
 
         if user is not None:
             auth.login(request, user)
+            userid = user.id
+            walletbalance = extendeduser.objects.values_list('walletbalance', flat=True).get(user_id = userid)
+            print(walletbalance)
+
+
+            request.session["walletbalance"] = walletbalance
             return redirect("/")
         else:
             messages.info(request,'invalid credentials')
@@ -135,7 +141,7 @@ def editlisting(request):
             editlot.price = price     
             editlot.save();
             messages.info(request,'Update successful')
-            return redirect('myspacehome')
+            return redirect('myspacehome<a class="dropdown-item" href="">Wallet Rs </a>')
 
         elif 'deactivate' in request.POST:
             lotid = request.POST['lotid']
@@ -263,6 +269,10 @@ def verifiedbyme(request):
     return render(request,'verifiedbyme.html',{'lotverifyobj' : lotverifyobj})
 
 def lotoverview(request):
-    parking = request.GET.get('lot')
-    lotobjs = parkinglot.objects.get(id=parking)  
-    return render(request,'lotoverview.html',{'lotobjs' : lotobjs})
+    if request.user.is_authenticated:
+        parking = request.GET.get('lot')
+        lotobjs = parkinglot.objects.get(id=parking)  
+        return render(request,'lotoverview.html',{'lotobjs' : lotobjs})
+    else:
+        messages.info(request,'Please Login to Continue')
+        return redirect('login') 

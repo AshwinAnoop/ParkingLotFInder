@@ -7,6 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <link rel="icon" href="https://img.icons8.com/dusk/64/000000/car-rental.png">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -47,10 +48,10 @@
                         <a class="nav-link" href="/">Hourly<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item" id="navmonth">
-                        <a class="nav-link" href="monthlyhome">Monthly</a>
+                        <a class="nav-link" href="/monthlyhome">Monthly</a>
                     </li>
                      <li class="nav-item" id="navvalet">
-                        <a class="nav-link" href="#">Valet</a>
+                        <a class="nav-link" href="/bookings">Bookings</a>
                     </li>
                    
                 </ul>
@@ -73,9 +74,11 @@
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             {% if user.is_authenticated %}
                             <li class="dropdown-item">Hello, {{user.first_name}}</li>
-                            <a class="dropdown-item" href="logout">Logout</a>  
+                            <a class="dropdown-item" href="">Wallet Rs {{request.session.walletbalance}} </a>
+                            <a class="dropdown-item" href="">Settings </a>
+                            <a class="dropdown-item" href="/logout">Logout</a>  
                             {% else %}
-                            <a class="dropdown-item" href="login">Login</a>
+                            <a class="dropdown-item" href="/login">Login</a>
                             {% endif %}                            
                         </div>
                         </div>
