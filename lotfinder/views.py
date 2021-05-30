@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User,auth
-from .models import extendeduser, lotverification,parkinglot,locality, wallet
+from .models import extendeduser, lotverification,parkinglot,locality,wallet
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 import datetime
@@ -31,9 +31,6 @@ def login(request):
             auth.login(request, user)
             userid = user.id
             walletbalance = extendeduser.objects.values_list('walletbalance', flat=True).get(user_id = userid)
-            print(walletbalance)
-
-
             request.session["walletbalance"] = walletbalance
             return redirect("/")
         else:
@@ -276,3 +273,26 @@ def lotoverview(request):
     else:
         messages.info(request,'Please Login to Continue')
         return redirect('login') 
+
+def walletfunc(request): 
+    return render(request,'wallet.html')
+
+def addmoney(request):
+    if request.method == 'POST':
+        amountvar = request.POST['cash']
+        userid = request.user.id
+        currbalance = request.session["walletbalance"]
+        newbalance = int(currbalance) + int(amountvar)
+
+        editbalance = extendeduser.objects.get(user=userid) 
+        editbalance.walletbalance = newbalance
+        editbalance.save();
+        addobj = wallet(amount=amountvar,userid_id=userid)
+        addobj.save();
+        request.session["walletbalance"]=newbalance
+
+        messages.info(request,'Deposit successful')
+        return redirect('wallet')   
+
+    else:
+        return render(request,'addmoney.html')
