@@ -22,4 +22,5 @@ urlpatterns = [
     path('lotoverview/',views.lotoverview, name='lotoverview'),
     path('wallet',views.walletfunc, name='wallet'),
     path('addmoney',views.addmoney, name='addmoney'),
+    path('withdraw',views.withdraw, name='withdraw'),
 ]

@@ -274,8 +274,10 @@ def lotoverview(request):
         messages.info(request,'Please Login to Continue')
         return redirect('login') 
 
-def walletfunc(request): 
-    return render(request,'wallet.html')
+def walletfunc(request):
+    userid = request.user.id
+    walletobjs = wallet.objects.filter(userid_id=userid).order_by('-Transactdate')
+    return render(request,'wallet.html',{'walletobjs' : walletobjs})
 
 def addmoney(request):
     if request.method == 'POST':
@@ -296,3 +298,24 @@ def addmoney(request):
 
     else:
         return render(request,'addmoney.html')
+
+def withdraw(request):
+    if request.method == 'POST':
+        amountvar = request.POST['cash']
+        userid = request.user.id
+        currbalance = request.session["walletbalance"]
+        newbalance = int(currbalance) - int(amountvar)
+        negamount = 0 - int(amountvar)
+
+        editbalance = extendeduser.objects.get(user=userid) 
+        editbalance.walletbalance = newbalance
+        editbalance.save();
+        addobj = wallet(amount=negamount,userid_id=userid)
+        addobj.save();
+        request.session["walletbalance"]=newbalance
+
+        messages.info(request,'Withdrawl successful')
+        return redirect('wallet')   
+
+    else:
+        return render(request,'withdraw.html')

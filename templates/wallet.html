@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load mathfilters %}
 
 
 {%  block content %}
@@ -19,7 +20,7 @@
 
 
                 <div class="d-flex justify-content-end mb-3">
-                    <a class="btn btn-outline-primary mt-3 ml-2">Transaction Hisory</a>
+                    <button type="button" class="btn btn-outline-primary mt-3 ml-2" data-toggle="modal" data-target="#exampleModal">Transaction Hisory</button>
                     <a class="btn btn-outline-primary mt-3 ml-1">Order Payments</a>
                 </div>
 
@@ -36,12 +37,66 @@
 
                 <div class="d-flex justify-items-center">
                     <a class="btn btn-success mt-3 ml-2" href="addmoney">Add money</a>
-                    <a class="btn btn-danger mt-3 ml-2">withdraw money</a>
+                    <a class="btn btn-danger mt-3 ml-2" href="withdraw">withdraw money</a>
                 </div>
 
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModal">Transactions</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            
+                <table class="table">
+                    <thead class="thead-dark">
+                      <tr>
+
+                        <th scope="col">Amount</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Date & Time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for detail in walletobjs %}
+                      <tr>
+                        {% if detail.amount < 0 %}
+                        <td style="color: crimson;"><b>{{detail.amount|mul:-1}}</b></td>
+                        {% else %}
+                        <td style="color: darkgreen;"><b>{{detail.amount}}</b></td>
+                        {% endif %}
+                        {% if detail.amount < 0 %}
+                        <td style="color: crimson;">Withdrawl</td>
+                        {% else %}
+                        <td style="color: darkgreen;">Deposit</td>
+                        {% endif %}
+                        <td>{{detail.Transactdate}}</td>
+
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+
+
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+
 </section>
 
 
