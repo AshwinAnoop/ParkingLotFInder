@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User,auth
-from .models import extendeduser, lotverification,parkinglot,locality,wallet
+from .models import booking, extendeduser, lotverification,parkinglot,locality,wallet
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 import datetime
@@ -11,12 +11,12 @@ import datetime
 def home(request):
         if request.method=='POST':
             place = request.POST['place']
-            lotobjs = parkinglot.objects.filter(locality = place,verifystatus = True).order_by('-id')
+            lotobjs = parkinglot.objects.filter(locality = place,verifystatus = True,bookedstatus = False).order_by('-id')
             localities = locality.objects.all()
             return render(request,'home.html',{'lotobjs' : lotobjs, 'localities' : localities})
 
         else:
-            lotobjs = parkinglot.objects.filter(verifystatus = True).order_by('-id')
+            lotobjs = parkinglot.objects.filter(verifystatus = True,bookedstatus = False).order_by('-id')
             localities = locality.objects.all()
             return render(request,'home.html',{'lotobjs' : lotobjs, 'localities' : localities})
 
@@ -76,11 +76,11 @@ def monthlyhome(request):
 
         if request.method=='POST':
             place = request.POST['place']
-            lotobjs = parkinglot.objects.filter(locality = place,monthlyrent=True)
+            lotobjs = parkinglot.objects.filter(locality = place,monthlyrent=True,bookedstatus = False)
             localities = locality.objects.all()
             return render(request,'monthlyhome.html',{'lotobjs' : lotobjs, 'localities' : localities})
         else:
-            lotobjs = parkinglot.objects.filter(monthlyrent=True)
+            lotobjs = parkinglot.objects.filter(monthlyrent=True,bookedstatus = False)
             localities = locality.objects.all()
             return render(request,'monthlyhome.html',{'lotobjs' : lotobjs, 'localities' : localities})
 
@@ -267,9 +267,24 @@ def verifiedbyme(request):
 
 def lotoverview(request):
     if request.user.is_authenticated:
-        parking = request.GET.get('lot')
-        lotobjs = parkinglot.objects.get(id=parking)  
-        return render(request,'lotoverview.html',{'lotobjs' : lotobjs})
+        if request.method == 'POST':
+            bookingtime = datetime.datetime.now()
+            lotid = request.POST['lotid']
+            userid = request.user.id
+
+            bookingobj = booking(booktime=bookingtime,lotid_id=lotid,userid_id=userid)
+            bookingobj.save();
+
+            loteditobj = parkinglot.objects.get(id=lotid)
+            loteditobj.bookedstatus = True
+            loteditobj.save();
+            messages.info(request,'Succesfully Booked')
+            return redirect('/')           
+
+        else:               
+            parking = request.GET.get('lot')
+            lotobjs = parkinglot.objects.get(id=parking)  
+            return render(request,'lotoverview.html',{'lotobjs' : lotobjs})
     else:
         messages.info(request,'Please Login to Continue')
         return redirect('login') 
@@ -319,3 +334,43 @@ def withdraw(request):
 
     else:
         return render(request,'withdraw.html')
+
+def bookings(request):
+    if request.method == 'POST':
+        userid = request.user.id
+        bookingid = request.POST['bookingid']
+        priceperhour = request.POST['priceperhour']
+        parkingid = request.POST['parkingid']
+        vacatetime = datetime.datetime.now()
+        editbooking = booking.objects.get(id=bookingid)
+        starttime = editbooking.booktime
+        starttime = starttime.replace(tzinfo=None)
+        totaltime = vacatetime - starttime
+        totalhour = totaltime.seconds/3600
+        totalcost = int(priceperhour) * int(totalhour)
+
+        editbooking.vacate = vacatetime
+        editbooking.payment = totalcost
+        editbooking.paymentstatus = True
+        editbooking.save();
+
+        parkingobj = parkinglot.objects.get(id=parkingid)
+        parkingobj.bookedstatus = False
+        parkingobj.save();
+
+        userobj = extendeduser.objects.get(user_id=userid)
+        currbalance = userobj.walletbalance
+        newbalance = currbalance - totalcost
+        userobj.walletbalance = newbalance
+        userobj.save();
+        request.session["walletbalance"]=newbalance
+        messages.info(request,'Slot freed Successfully!!!')
+        return redirect('bookings') 
+
+
+
+
+    else:   
+        userid = request.user.id
+        bookedobjs = booking.objects.filter(userid_id = userid)
+        return render(request,'bookings.html',{'bookedobjs' : bookedobjs})

@@ -19,6 +19,7 @@ class parkinglot(models.Model):
     gmaplink = models.CharField(max_length = 150)
     verifystatus = models.BooleanField(default=False)
     activestatus = models.BooleanField(default=True)
+    bookedstatus = models.BooleanField(default=False)
 
 class locality(models.Model):
     locality = models.CharField(max_length = 30)
@@ -26,9 +27,10 @@ class locality(models.Model):
 class booking(models.Model):
     lotid = models.ForeignKey(parkinglot , on_delete=models.DO_NOTHING)
     booktime = models.DateTimeField()
-    vacate = models.DateTimeField()
+    vacate = models.DateTimeField(default=None, blank=True, null=True)
     userid = models.ForeignKey(User , on_delete=models.DO_NOTHING)
-    payment = models.IntegerField()
+    payment = models.IntegerField(default=None, blank=True, null=True)
+    paymentstatus = models.BooleanField(default=False)
     valetbooking = models.BooleanField(default=False)
 
 class lotverification(models.Model):

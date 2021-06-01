@@ -66,7 +66,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Tariff Plans</h5>
-                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                         
@@ -116,8 +116,18 @@
 
                         </div>
                         <div class="modal-footer">
+                        {% if request.session.walletbalance < 1000 %}
+                        <p class="text-danger">*** Minimum of 1000rs wallet balance required to book the slot ***</p>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Confirm Booking</button>
+                        <a href="/wallet" class="btn btn-danger">Add money to continue</a>
+                        {% else %}
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <form action="/lotoverview" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="lotid" value="{{lotobjs.id}}">
+                        <button type="sumbit" class="btn btn-primary">Confirm Booking</button>
+                        </form>
+                        {% endif %}
                         </div>
                     </div>
                     </div>
