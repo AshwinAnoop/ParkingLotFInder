@@ -35,7 +35,11 @@
         <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">{{booking.lotid.title}}</h5>
+            {% if booking.monthlysubscribe %}
+            <small class="btn-sm btn-success">Monthly Subscription</small>
+            {% else %}
             <small class="text-muted">Order Closed</small>
+            {% endif %}
           </div>
           <p class="mb-1">Start Time : {{booking.booktime}}</p>
           <p class="mb-1">Vacate Time : {{booking.vacate}}</p>

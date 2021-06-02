@@ -32,6 +32,8 @@ class booking(models.Model):
     payment = models.IntegerField(default=None, blank=True, null=True)
     paymentstatus = models.BooleanField(default=False)
     valetbooking = models.BooleanField(default=False)
+    monthlysubscribe = models.BooleanField(default=False)
+
 
 class lotverification(models.Model):
     verifier = models.ForeignKey(User , on_delete=models.DO_NOTHING)

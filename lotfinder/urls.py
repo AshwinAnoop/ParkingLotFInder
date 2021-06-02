@@ -25,4 +25,6 @@ urlpatterns = [
     path('addmoney',views.addmoney, name='addmoney'),
     path('withdraw',views.withdraw, name='withdraw'),
     path('bookings',views.bookings, name='bookings'),
+    path('monthlyoverview/',views.monthlyoverview, name='monthlyoverview'),
+    path('monthlyoverview',views.monthlyoverview, name='monthlyoverview'),
 ]

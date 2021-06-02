@@ -76,11 +76,11 @@ def monthlyhome(request):
 
         if request.method=='POST':
             place = request.POST['place']
-            lotobjs = parkinglot.objects.filter(locality = place,monthlyrent=True,bookedstatus = False)
+            lotobjs = parkinglot.objects.filter(locality = place,monthlyrent=True,bookedstatus = False).order_by('-id')
             localities = locality.objects.all()
             return render(request,'monthlyhome.html',{'lotobjs' : lotobjs, 'localities' : localities})
         else:
-            lotobjs = parkinglot.objects.filter(monthlyrent=True,bookedstatus = False)
+            lotobjs = parkinglot.objects.filter(monthlyrent=True,bookedstatus = False).order_by('-id')
             localities = locality.objects.all()
             return render(request,'monthlyhome.html',{'lotobjs' : lotobjs, 'localities' : localities})
 
@@ -379,10 +379,36 @@ def bookings(request):
         messages.info(request,'Slot freed Successfully!!!')
         return redirect('bookings') 
 
-
-
-
     else:   
         userid = request.user.id
         bookedobjs = booking.objects.filter(userid_id = userid).order_by('-id')
         return render(request,'bookings.html',{'bookedobjs' : bookedobjs})
+
+def monthlyoverview(request):
+    if request.method == 'POST':
+        bookingtime = datetime.datetime.now()
+        lotid = request.POST['lotid']
+        payment = request.POST['pricesub']
+        userid = request.user.id
+        vacatetime = datetime.datetime.now()+datetime.timedelta(days=30)
+
+        bookingobj = booking(booktime=bookingtime,vacate=vacatetime,lotid_id=lotid,userid_id=userid,payment=payment,paymentstatus=True,monthlysubscribe=True)
+        bookingobj.save();
+
+        loteditobj = parkinglot.objects.get(id=lotid)
+        loteditobj.bookedstatus = True
+        loteditobj.save();
+
+        userobj = extendeduser.objects.get(user_id=userid)
+        currbalance = userobj.walletbalance
+        newbalance = int(currbalance) - int(payment)
+        userobj.walletbalance = newbalance
+        userobj.save();
+        request.session["walletbalance"]=newbalance
+
+        messages.info(request,'Monthly subscription sucessful')
+        return redirect('/') 
+    else:
+        parking = request.GET.get('lot')
+        lotobjs = parkinglot.objects.get(id=parking)  
+        return render(request,'monthlyoverview.html',{'lotobjs' : lotobjs})
