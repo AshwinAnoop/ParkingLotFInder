@@ -27,15 +27,33 @@
 
     {% for booking in bookedobjs %}
 
+
+    {% if booking.paymentstatus %}
+
+    <div class="list-group">
+
+        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{booking.lotid.title}}</h5>
+            <small class="text-muted">Order Closed</small>
+          </div>
+          <p class="mb-1">Start Time : {{booking.booktime}}</p>
+          <p class="mb-1">Vacate Time : {{booking.vacate}}</p>
+          <small class="text-success">Amount Paid : {{booking.payment}}</small>
+        </a>
+
+      </div>
+
+
+
+
+    {% else %}
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
           <h1 class="display-4">Title : {{booking.lotid.title}}</h1>
           <p class="lead">Start Time : {{booking.booktime}}</p>
           <input type="hidden" name="bookingid" value="{{booking.id}}">
-          {% if booking.paymentstatus %}
-          {% else %}
           <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Free up this slot</button>
-          {% endif %}
         </div>
       </div>
 
@@ -73,7 +91,7 @@
         </div>
     </div>
 
-
+    {% endif %}
     {% endfor %}
 
 </section>

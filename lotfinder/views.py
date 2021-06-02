@@ -347,7 +347,19 @@ def bookings(request):
         starttime = starttime.replace(tzinfo=None)
         totaltime = vacatetime - starttime
         totalhour = totaltime.seconds/3600
-        totalcost = int(priceperhour) * int(totalhour)
+
+        if totalhour < 2:
+            totalcost = int(priceperhour) * 2
+        elif totalhour < 12:
+            totalhour = int(totalhour) + 1
+            totalcost = int(priceperhour) * int(totalhour)
+        elif totalhour < 24:
+            totalcost = int(priceperhour) * 12
+        else:
+            totalday = int(totalhour)/24
+            totalday = totalday + 1
+            costperday = int(priceperhour) * 12
+            totalcost = totalday * costperday
 
         editbooking.vacate = vacatetime
         editbooking.payment = totalcost
@@ -372,5 +384,5 @@ def bookings(request):
 
     else:   
         userid = request.user.id
-        bookedobjs = booking.objects.filter(userid_id = userid)
+        bookedobjs = booking.objects.filter(userid_id = userid).order_by('-id')
         return render(request,'bookings.html',{'bookedobjs' : bookedobjs})
