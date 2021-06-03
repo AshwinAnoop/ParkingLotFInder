@@ -21,8 +21,14 @@ class parkinglot(models.Model):
     activestatus = models.BooleanField(default=True)
     bookedstatus = models.BooleanField(default=False)
 
+    def __str__(self):
+        return "{} : {}".format(str(self.id), self.title)
+
 class locality(models.Model):
     locality = models.CharField(max_length = 30)
+
+    def __str__(self):
+        return self.locality
 
 class booking(models.Model):
     lotid = models.ForeignKey(parkinglot , on_delete=models.DO_NOTHING)

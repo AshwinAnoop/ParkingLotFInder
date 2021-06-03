@@ -18,6 +18,9 @@ from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
 
+admin.site.site_header = 'Park-X Admin'
+admin.site.site_title = 'Park-X Admin'
+
 urlpatterns = [
     path('',include('lotfinder.urls')),
     path('admin/', admin.site.urls),
