@@ -8,6 +8,9 @@ class extendeduser(models.Model):
     walletbalance = models.IntegerField()
     user = models.OneToOneField(User,on_delete=models.CASCADE) 
 
+    def __str__(self):
+        return "{} : {}".format(self.user.id, self.user.first_name)
+
 class parkinglot(models.Model):
     locality = models.CharField(max_length = 30)
     title = models.CharField(max_length = 100)
@@ -40,6 +43,8 @@ class booking(models.Model):
     valetbooking = models.BooleanField(default=False)
     monthlysubscribe = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.id
 
 class lotverification(models.Model):
     verifier = models.ForeignKey(User , on_delete=models.DO_NOTHING)
@@ -47,6 +52,10 @@ class lotverification(models.Model):
     feedback = models.TextField(default=None, blank=True, null=True)
     lotid = models.ForeignKey(parkinglot , on_delete=models.DO_NOTHING)
     allotedstatus = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.id
+
 
 
 class valet(models.Model):
@@ -57,3 +66,6 @@ class wallet(models.Model):
     userid = models.ForeignKey(User , on_delete=models.DO_NOTHING)
     amount = models.IntegerField()
     Transactdate = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.id
