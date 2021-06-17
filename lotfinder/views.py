@@ -16,7 +16,7 @@ def home(request):
             return render(request,'home.html',{'lotobjs' : lotobjs, 'localities' : localities})
 
         else:
-            lotobjs = parkinglot.objects.filter(verifystatus = True,bookedstatus = False).order_by('-id')
+            lotobjs = parkinglot.objects.filter(verifystatus = True,bookedstatus = False,activestatus=True).order_by('-id')
             localities = locality.objects.all()
             return render(request,'home.html',{'lotobjs' : lotobjs, 'localities' : localities})
 
@@ -292,7 +292,8 @@ def lotoverview(request):
 def walletfunc(request):
     userid = request.user.id
     walletobjs = wallet.objects.filter(userid_id=userid).order_by('-Transactdate')
-    return render(request,'wallet.html',{'walletobjs' : walletobjs})
+    orderobjs = booking.objects.filter(userid_id=userid,paymentstatus=True).order_by('-id')
+    return render(request,'wallet.html',{'walletobjs' : walletobjs , 'orderobjs' : orderobjs})
 
 def addmoney(request):
     if request.method == 'POST':
@@ -412,3 +413,8 @@ def monthlyoverview(request):
         parking = request.GET.get('lot')
         lotobjs = parkinglot.objects.get(id=parking)  
         return render(request,'monthlyoverview.html',{'lotobjs' : lotobjs})
+
+def listingreport(request):
+    userid = request.user.id
+    bookingobjs = booking.objects.filter(lotid__userid_id=userid)
+    return render(request,'listingreport.html',{'bookingobjs' : bookingobjs})

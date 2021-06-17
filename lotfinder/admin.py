@@ -83,3 +83,5 @@ class extendeduserAdmin(ModelAdmin):
         return obj.user.id
     get_userid.admin_order_field  = 'user'  #Allows column order sorting
     get_userid.short_description = 'User ID'  #Renames column head
+
+
