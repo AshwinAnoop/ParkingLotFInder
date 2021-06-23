@@ -5,6 +5,8 @@ from .models import booking, extendeduser, lotverification,parkinglot,locality,w
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 import datetime
+import stripe #to use stripe as payment gateway
+from django.conf import settings
 
 # Create your views here.
 
@@ -298,8 +300,26 @@ def walletfunc(request):
 def addmoney(request):
     if request.method == 'POST':
         amountvar = request.POST['cash']
+        request.session["paynow"]=amountvar
+        return redirect('checkout')   
+
+    else:
+        return render(request,'addmoney.html')
+
+def checkout(request):
+    if request.method == 'POST':
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        amountvar = request.session['paynow']
+        stripe_total = int(amountvar) * 100
         userid = request.user.id
         currbalance = request.session["walletbalance"]
+
+        token = request.POST['stripeToken']
+        email = request.POST['stripeEmail']
+        customer = stripe.Customer.create(email=email,source=token)
+        charge = stripe.Charge.create(amount=stripe_total,currency="inr",customer=customer.id)
+
+
         newbalance = int(currbalance) + int(amountvar)
 
         editbalance = extendeduser.objects.get(user=userid) 
@@ -313,7 +333,11 @@ def addmoney(request):
         return redirect('wallet')   
 
     else:
-        return render(request,'addmoney.html')
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        data_key = settings.STRIPE_PUBLISHABLE_KEY
+        amountvar = request.session['paynow']
+        stripe_total = int(amountvar) * 100
+        return render(request,'checkout.html',{'data_key' : data_key, 'stripe_total' : stripe_total})
 
 def withdraw(request):
     if request.method == 'POST':
