@@ -368,7 +368,7 @@ def bookings(request):
         editbooking.save();
 
         parkingobj = parkinglot.objects.get(id=parkingid)
-        parkingobj.bookedstatus = False
+        parkingobj.pendingconfirm = True
         parkingobj.save();
 
         userobj = extendeduser.objects.get(user_id=userid)
@@ -418,3 +418,20 @@ def listingreport(request):
     userid = request.user.id
     bookingobjs = booking.objects.filter(lotid__userid_id=userid)
     return render(request,'listingreport.html',{'bookingobjs' : bookingobjs})
+
+def confirmation(request):
+    if request.method == 'POST':
+        lotid = request.POST['lotid']
+        loteditobj = parkinglot.objects.get(id=lotid)
+        loteditobj.pendingconfirm = False
+        loteditobj.bookedstatus = False
+        loteditobj.save();
+
+        messages.info(request,'Your ad is active now')
+        return redirect('myspacehome')
+
+
+    else:
+        userid = request.user.id
+        lotobjs = parkinglot.objects.filter(userid_id=userid,pendingconfirm=True)
+        return render(request,'confirmation.html',{'lotobjs' : lotobjs})

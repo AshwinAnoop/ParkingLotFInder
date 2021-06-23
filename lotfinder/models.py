@@ -23,6 +23,7 @@ class parkinglot(models.Model):
     verifystatus = models.BooleanField(default=False)
     activestatus = models.BooleanField(default=True)
     bookedstatus = models.BooleanField(default=False)
+    pendingconfirm = models.BooleanField(default=False)
 
     def __str__(self):
         return "{} : {}".format(str(self.id), self.title)

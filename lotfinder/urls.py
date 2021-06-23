@@ -28,4 +28,5 @@ urlpatterns = [
     path('monthlyoverview/',views.monthlyoverview, name='monthlyoverview'),
     path('monthlyoverview',views.monthlyoverview, name='monthlyoverview'),
     path('listingreport',views.listingreport, name='listingreport'),
+    path('confirmation',views.confirmation, name='confirmation'),
 ]
