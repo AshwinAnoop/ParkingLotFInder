@@ -35,7 +35,7 @@
                         <a class="nav-link" href="/myspacehome">Your Spaces<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item" id="navreport">
-                        <a class="nav-link" href="/listingreport">Reports</a>
+                        <a class="nav-link" href="#">Confirmations</a>
                     </li>
                      <li class="nav-item" id="navlist">
                         <a class="nav-link" href="/addparking">List New</a>
@@ -59,6 +59,7 @@
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             {% if user.is_authenticated %}
                             <li class="dropdown-item">Hello, {{user.first_name}}</li>
+                            <a class="dropdown-item" href="/listingreport">Reports</a>
                             <a class="dropdown-item" href="logout">Logout</a>  
                             {% else %}
                             <a class="dropdown-item" href="login">Login</a>

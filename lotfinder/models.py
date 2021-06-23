@@ -19,7 +19,7 @@ class parkinglot(models.Model):
     monthlyrent = models.BooleanField(default=False)
     userid = models.ForeignKey(User , on_delete=models.DO_NOTHING)
     image = models.ImageField(upload_to = 'pics/')
-    gmaplink = models.CharField(max_length = 150)
+    gmaplink = models.CharField(max_length = 300)
     verifystatus = models.BooleanField(default=False)
     activestatus = models.BooleanField(default=True)
     bookedstatus = models.BooleanField(default=False)

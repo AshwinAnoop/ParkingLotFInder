@@ -9,6 +9,8 @@
         border-color: tomato;
         border-bottom-width: thick;
     }
+
+    
  </style>
 {% endblock %}
 
@@ -28,12 +30,17 @@
         <div class="container mt-5">
             <div class="row">
                 {% for lotobj in lotobjs %}
-                <div class="col-md-3 ">
+                <div class="col-md-4 ">
 
                     
-                    <div class="card" style="width: 18rem;height: 28rem;">
+                    <div class="card" style="height: 30rem;">
                         <img class="card-img-top" src="{{lotobj.image.url}}"
                             alt="Card image cap" style="height: 17rem;">
+                            {% if lotobj.activestatus %}
+                            <p class="card-text" style="background-color: chartreuse; color:white;"><b>Currently Active </b></p>
+                            {% else %}
+                            <p class="card-text" style="background-color: crimson; color:white;"><b>Slot not Active </b></p>
+                            {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{lotobj.title}}</h5>
                             <p class="card-text">Rs<b> {{lotobj.price}}</b>/hour </p>
