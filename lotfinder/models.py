@@ -70,3 +70,10 @@ class wallet(models.Model):
     
     def __str__(self):
         return self.id
+
+
+class lotSummary(parkinglot):
+    class Meta:
+        proxy = True
+        verbose_name = 'Location & Lot Summary'
+        verbose_name_plural = 'Location-Lot Summary'

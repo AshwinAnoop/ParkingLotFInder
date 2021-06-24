@@ -1,6 +1,8 @@
 #from django.contrib import admin
 from django.contrib.admin import ModelAdmin,register
-from .models import parkinglot,locality,booking,wallet,lotverification,extendeduser
+from django.db.models.aggregates import Avg
+from .models import parkinglot,locality,booking,wallet,lotverification,extendeduser,lotSummary
+from django.db.models import Count,Avg
 
 
 # Register your models here.
@@ -85,3 +87,37 @@ class extendeduserAdmin(ModelAdmin):
     get_userid.short_description = 'User ID'  #Renames column head
 
 
+
+@register(lotSummary)
+class lotSummaryAdmin(ModelAdmin):
+    change_list_template = 'admin/lot_summary_change_list.html'
+    icon_name = 'event_note'
+    list_filter = ('activestatus',)
+
+    #date_hierarchy = 'created'
+    def changelist_view(self, request, extra_context=None):
+        response = super().changelist_view(
+            request,
+            extra_context=extra_context,
+        )
+        try:
+            qs = response.context_data['cl'].queryset
+        except (AttributeError, KeyError):
+            return response
+        
+        metrics = {
+            'total': Count('id'),
+            'average_price': Avg('price'),
+        }
+        response.context_data['summary'] = list(
+            qs
+            .values('locality')
+            .annotate(**metrics)
+            .order_by('-total')
+        )
+        #return response
+
+        response.context_data['summary_total'] = dict(
+            qs.aggregate(**metrics)
+        )
+        return response

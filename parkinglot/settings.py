@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'lotfinder',
     'mathfilters',
+    'django.contrib.humanize'
 ]
 
 MIDDLEWARE = [
