@@ -77,3 +77,10 @@ class lotSummary(parkinglot):
         proxy = True
         verbose_name = 'Location & Lot Summary'
         verbose_name_plural = 'Location-Lot Summary'
+
+
+class bookingSummary(booking):
+    class Meta:
+        proxy = True
+        verbose_name = 'Booking Report'
+        verbose_name_plural = 'Bookings Report'

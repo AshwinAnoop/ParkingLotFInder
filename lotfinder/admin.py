@@ -1,7 +1,7 @@
 #from django.contrib import admin
 from django.contrib.admin import ModelAdmin,register
-from django.db.models.aggregates import Avg
-from .models import parkinglot,locality,booking,wallet,lotverification,extendeduser,lotSummary
+from django.db.models.aggregates import Avg, Sum
+from .models import parkinglot,locality,booking,wallet,lotverification,extendeduser,lotSummary,bookingSummary
 from django.db.models import Count,Avg
 
 
@@ -92,7 +92,7 @@ class extendeduserAdmin(ModelAdmin):
 class lotSummaryAdmin(ModelAdmin):
     change_list_template = 'admin/lot_summary_change_list.html'
     icon_name = 'event_note'
-    list_filter = ('activestatus',)
+    list_filter = ('activestatus','bookedstatus')
 
     #date_hierarchy = 'created'
     def changelist_view(self, request, extra_context=None):
@@ -114,6 +114,41 @@ class lotSummaryAdmin(ModelAdmin):
             .values('locality')
             .annotate(**metrics)
             .order_by('-total')
+        )
+        #return response
+
+        response.context_data['summary_total'] = dict(
+            qs.aggregate(**metrics)
+        )
+        return response
+
+
+@register(bookingSummary)
+class bookingSummaryAdmin(ModelAdmin):
+    change_list_template = 'admin/booking_summary_change_list.html'
+    icon_name = 'event_note'
+    list_filter = ('monthlysubscribe','booktime')
+
+    #date_hierarchy = 'created'
+    def changelist_view(self, request, extra_context=None):
+        response = super().changelist_view(
+            request,
+            extra_context=extra_context,
+        )
+        try:
+            qs = response.context_data['cl'].queryset
+        except (AttributeError, KeyError):
+            return response
+        
+        metrics = {
+            'total': Count('id'),
+            'earning': Sum('payment'),
+        }
+        response.context_data['summary'] = list(
+            qs
+            .values('lotid')
+            .annotate(**metrics)
+            .order_by('-total','-earning')
         )
         #return response
 
